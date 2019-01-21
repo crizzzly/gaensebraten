@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://gb.tmy.io",
   "dependencies": {
+    "react-grid-system": "^3.1.2",
     "leapjs": "0.6.4",
     "lodash.clonedeep": "4.5.0",
     "lodash.omit": "4.5.0",
