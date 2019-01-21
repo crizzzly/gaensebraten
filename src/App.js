@@ -136,18 +136,36 @@ class App extends Component {
     // }
     this.setState({leftIndex: {
       x: this.leftIndex[0],
-      y: this.leftIndex[1]
-    }})
-    this.setState({rightIndex: {x: this.rightIndex[0], y: this.rightIndex[1], z: this.rightIndex[2]}})
-    this.setState({leftIndex:  {x: this.leftIndex[0],  y: this.leftIndex[1],  z: this.leftIndex[2] }})
-    this.setState({leftThumb:  {x: this.leftThumb[0],  y: this.leftThumb[1],  z: this.leftThumb[2] }})
-    this.setState({rightThumb: {x: this.rightThumb[0], y: this.rightThumb[1], z: this.rightThumb[1]}})
+      y: this.leftIndex[1],
+      z: this.leftIndex[2]}
+    })
+    this.setState({rightIndex: {
+      x: this.rightIndex[0],
+      y: this.rightIndex[1],
+      z: this.rightIndex[2]}
+    })
+    this.setState({leftIndex:  {
+      x: this.leftIndex[0],
+      y: this.leftIndex[1],
+      z: this.leftIndex[2] }
+    })
+    this.setState({leftThumb:  {
+      x: this.leftThumb[0],
+      y: this.leftThumb[1],
+      z: this.leftThumb[2] }
+    })
+    this.setState({rightThumb: {
+      x: this.rightThumb[0],
+      y: this.rightThumb[1],
+      z: this.rightThumb[1]}
+    })
   }
 
   // functions to set the circle position according to finger tip position detected by leap
   mapVal(val, in_min, in_max, out_min, out_max) {
     return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
+
   getFingerScreenPosition(leapPosition, spaceSize=50) {
     const INTERACTION_SPACE_WIDTH = 200
     const INTERACTION_SPACE_DEPTH = 120
@@ -164,13 +182,13 @@ class App extends Component {
 
   }
 
-
   notification(type, msg) {
     this.setState({ alert: { show: true, msg: msg } });
     setTimeout(() => {
       this.setState({ alert: { show: false } });
     }, 5000);
   }
+
   handleClick = event => {
     event.preventDefault();
     this.setState({ active: null });
@@ -267,10 +285,25 @@ class App extends Component {
               </div>
             </div>
           </Router>
-          <div className="right_index" left={this.state.rightIndex.x} top={this.state.rightIndex.y}/>
-          <div className="right_thumb" left={this.state.rightThumb.x} top={this.state.rightThumb.y}/>
-          <div className="left_index"  left={this.state.leftIndex.x}  top={this.state.leftIndex.y}/>
-          <div className="left_thumb"  left={this.state.leftThumb.x}  top={this.state.leftThumb.y}/>
+          <div
+            className="right_index"
+            left={this.state.rightIndex.x}
+            top={this.state.rightIndex.y}/>
+
+          <div
+            className="right_thumb"
+            left={this.state.rightThumb.x}
+            top={this.state.rightThumb.y}/>
+
+          <div
+            className="left_index"
+            left={this.state.leftIndex.x}
+            top={this.state.leftIndex.y}/>
+
+          <div
+            className="left_thumb"
+            left={this.state.leftThumb.x}
+            top={this.state.leftThumb.y}/>
         </MyProvider>
       </div>
     ); // end of return
