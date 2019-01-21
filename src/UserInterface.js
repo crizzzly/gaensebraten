@@ -76,9 +76,9 @@ class UserInterface extends Component {
   }
 
   render() {
-    const frame = withLeapContainer(this);
+    const frame = withLeapContainer(this); //withLeapContainer(this);
 
-    const hands = this.getHands(frame);
+    const hands = frame.hands
     const spaceSize = 50; // for what!? --> find out
     let rightThumb = 0;
     let rightIndex = 0;
@@ -105,11 +105,15 @@ class UserInterface extends Component {
           console.log("right hand: " + rightIndex + ", " + rightThumb);
         }
       });
-    } // end of hands-loop
+    }
+    else{
+      console.log("no hands")
+    } // end of hands-scan
 
     fingers.forEach((finger, index) => {
       console.log(index + ": " + finger);
     });
+
     let button;
     if (this.state.active) {
       button = (
