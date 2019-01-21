@@ -48,6 +48,9 @@ body {
   min-height: 100vh;
   text-align: center;
 }
+.UserInterface > div{
+  height: 100%;
+}
 .wrapper {
   position: relative;
   height: 100%;

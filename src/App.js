@@ -3,7 +3,6 @@ import React, { Component } from "react";
 // import { MyProvider, MyContext } from "./context";
 
 import "./App.css";
-import { LeapProvider } from './leap';
 import UserInterface from './UserInterface'
 // import {Modal, Alert} from 'react-native'
 
@@ -26,11 +25,8 @@ class App extends Component {
 
   render() {
     return (
-
         <div className="App">
-          <LeapProvider options={{enableGestures: true}}>
             <UserInterface />
-          </LeapProvider>
         </div>
     );
   }
