@@ -7,20 +7,19 @@ const to = i => ({
   x: 0,
   y: i * -10,
   scale: 1,
-  rot: -10 + Math.random() * 20,
+  rot: -5 + Math.random() * 10,
   delay: i * 100
 });
 const from = i => ({ rot: 0, scale: 1.5, y: -1000 });
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) =>
-  `perspective(1500px) rotateX(30deg) rotateY(${r /
-    10}deg) rotateZ(${r}deg) scale(${s})`;
+  `perspective(1500px) rotateX(30deg) rotateY(0deg) rotateZ(${r}deg) scale(${s})`;
 
 function Decks(props) {
   // The set flags all the props.receipts that are flicked out
   const [gone] = useState(() => new Set());
   // Create a bunch of springs that contain x/y-position, rotation and scale - using the helpers above
-  
+
   const [decks, set] = useSprings(props.receipts.length, i => ({
     ...to(i),
     from: from(i)
@@ -78,7 +77,7 @@ function Decks(props) {
       style={{
         transform: interpolate(
           [x, y],
-          (x, y) => `translate3d(${x}px,${-y * 5}px,0)`
+          (x, y) => `translate3d(${x}px,${-y * 2}px,0)`
         )
       }}
     >

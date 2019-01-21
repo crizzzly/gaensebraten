@@ -148,7 +148,8 @@ nav {
   height: 100vh;
   will-change: transform;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  /* align-items: center; */
   justify-content: center;
 }
 .menumenu {
@@ -194,4 +195,44 @@ nav {
   background-color: transparent;
   border: 0 none;
   padding: 5px;
+}
+
+.right_index {
+  background: var(--blue);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 180px;
+  left: 800px;
+}
+
+.right_thumb {
+  background: var(--blue);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 150px;
+  left: 800px;
+}
+
+.left_index {
+  background: var(--blue);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 100px;
+  left: 800px;
+}
+
+.left_thumb {
+  background: var(--blue);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 130px;
+  left: 800px;
 }

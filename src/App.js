@@ -6,6 +6,7 @@ import "./App.css";
 import Login from "./Login";
 import Receipt from "./Receipt";
 import Receipts from "./Receipts";
+import { LeapProvider } from './leap';
 
 class App extends Component {
   state = {
@@ -36,6 +37,30 @@ class App extends Component {
     event.preventDefault();
     this.setState({ menu: !this.state.menu });
   };
+
+  // functions to set the circle position according to finger tip position detected by leap
+  restrictPosToRange (value, min, max) {
+    if (value > max) {
+      return max
+    }
+    if (value < min) {
+      return min
+    }
+    return value
+  };
+  getFingerScreenPosition(leapPosition, spaceSize) {
+    const heightStartScale = 100
+    const widthRatio = window.innerWidth / (2*spaceSize)
+    const heightRatio = window.innerHeight / (2*spaceSize)
+    const x = this.restrictPosToRange(leapPosition[0], -spaceSize, spaceSize)
+    const y = this.restrictPosToRange(leapPosition[1] - heightStartScale - spaceSize, -spaceSize, spaceSize)
+    const z = leapPosition[2]
+    const xNorm = x * widthRatio
+    const yNorm = y * heightRatio
+    const normalizedPosition = [xNorm, yNorm, z]
+    return normalizedPosition
+  }
+
   render() {
     let button;
     if (this.state.active) {
@@ -111,10 +136,20 @@ class App extends Component {
               </div>
             </div>
           </Router>
+          <div
+            className="right_index">
+          </div>
+          <div>
+            <LeapProvider options={{enableGestures: true}}>
+              <SpaceRoom />
+            </LeapProvider>
+          </div>
         </MyProvider>
       </div>
     );
   }
 }
+
+
 
 export default App;
