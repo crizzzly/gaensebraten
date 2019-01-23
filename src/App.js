@@ -7,6 +7,8 @@ import Login from "./Login";
 import Receipt from "./Receipt";
 import Receipts from "./Receipts";
 import Leap from 'leapjs';
+// import Fullscreen from "react-full-screen";
+
 
 
 class App extends Component {
@@ -111,12 +113,32 @@ class App extends Component {
     this.frameId = window.requestAnimationFrame(this.animate)
   }
 
+  // functions to set the circle position according to finger tip position detected by leap
+  mapVal(val, in_min, in_max, out_min, out_max) {
+    return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+  }
+
+  getFingerScreenPosition(leapPosition, spaceSize=50) {
+    const INTERACTION_SPACE_WIDTH = 200
+    const INTERACTION_SPACE_DEPTH = 120
+
+    const max_width = 2* INTERACTION_SPACE_WIDTH
+    const max_depth = 2* INTERACTION_SPACE_DEPTH
+
+    const x = this.mapVal(leapPosition[0], -INTERACTION_SPACE_WIDTH, INTERACTION_SPACE_WIDTH, 0, window.innerWidth)
+    const y = this.mapVal(leapPosition[2], -INTERACTION_SPACE_DEPTH, INTERACTION_SPACE_DEPTH, 0, window.innerHeight)
+    const z = this.mapVal(leapPosition[2], -INTERACTION_SPACE_WIDTH, INTERACTION_SPACE_WIDTH, 0, window.innerWidth)
+
+    const pos = [x, y, z]
+    return pos
+  }
+
   readData(frame){
     this.hands = frame.hands
-    this.leftThumb = [-10, -10];
-    this.leftIndex = [-10, -10];
-    this.rightThumb = [-10, -10];
-    this.rightIndex = [-10, -10];
+    this.leftThumb = [-10, -10, 0];
+    this.leftIndex = [-10, -10, 0];
+    this.rightThumb = [-10, -10, 0];
+    this.rightIndex = [-10, -10, 0];
     if (this.hands && this.hands.length){
       this.hands.forEach((hand, index) => {
         if (hand.type === "left") {
@@ -131,9 +153,7 @@ class App extends Component {
       })
 
     }
-    // else{
-    //   console.log("no hands")
-    // }
+
     this.setState({leftIndex: {
       x: this.leftIndex[0],
       y: this.leftIndex[1],
@@ -143,11 +163,6 @@ class App extends Component {
       x: this.rightIndex[0],
       y: this.rightIndex[1],
       z: this.rightIndex[2]}
-    })
-    this.setState({leftIndex:  {
-      x: this.leftIndex[0],
-      y: this.leftIndex[1],
-      z: this.leftIndex[2] }
     })
     this.setState({leftThumb:  {
       x: this.leftThumb[0],
@@ -161,26 +176,6 @@ class App extends Component {
     })
   }
 
-  // functions to set the circle position according to finger tip position detected by leap
-  mapVal(val, in_min, in_max, out_min, out_max) {
-    return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-  }
-
-  getFingerScreenPosition(leapPosition, spaceSize=50) {
-    const INTERACTION_SPACE_WIDTH = 200
-    const INTERACTION_SPACE_DEPTH = 120
-
-    const max_width = 2* INTERACTION_SPACE_WIDTH
-    const max_depth = 2* INTERACTION_SPACE_DEPTH
-
-    const x = this.mapVal(leapPosition[0], -INTERACTION_SPACE_WIDTH, INTERACTION_SPACE_WIDTH, 0, window.innerWidth)
-    const y = this.mapVal(leapPosition[1], -INTERACTION_SPACE_DEPTH, INTERACTION_SPACE_DEPTH, 0, window.innerHeight)
-    const z = this.mapVal(leapPosition[2], -INTERACTION_SPACE_WIDTH, INTERACTION_SPACE_WIDTH, 0, window.innerWidth)
-
-    const pos = [x, y, z]
-    return pos
-
-  }
 
   notification(type, msg) {
     this.setState({ alert: { show: true, msg: msg } });
@@ -287,23 +282,31 @@ class App extends Component {
           </Router>
           <div
             className="right_index"
-            left={this.state.rightIndex.x}
-            top={this.state.rightIndex.y}/>
-
+            style={{
+              left:this.state.rightIndex.x,
+              top:this.state.rightIndex.y
+            }}
+            />
           <div
             className="right_thumb"
-            left={this.state.rightThumb.x}
-            top={this.state.rightThumb.y}/>
+            style={{
+              left:this.state.rightThumb.x,
+              top:this.state.rightThumb.y
+            }}/>
 
           <div
             className="left_index"
-            left={this.state.leftIndex.x}
-            top={this.state.leftIndex.y}/>
+            style={{
+              left:this.state.leftIndex.x,
+              top:this.state.leftIndex.y
+            }}/>
 
           <div
             className="left_thumb"
-            left={this.state.leftThumb.x}
-            top={this.state.leftThumb.y}/>
+            style={{
+              left:this.state.rightThumb.x,
+              top:this.state.rightThumb.y
+            }}/>
         </MyProvider>
       </div>
     ); // end of return
