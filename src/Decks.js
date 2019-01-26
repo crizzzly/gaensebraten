@@ -13,7 +13,7 @@ const to = i => ({
 const from = i => ({ rot: 0, scale: 1.5, y: -1000 });
 // This is being used down there in the view, it interpolates rotation and scale into a css transform
 const trans = (r, s) =>
-  `perspective(1500px) rotateX(30deg) rotateY(0deg) rotateZ(${r}deg) scale(${s})`;
+  `rotateX(30deg) rotateY(0deg) rotateZ(${r}deg) scale(${s})`;
 
 function Decks(props) {
   // The set flags all the props.receipts that are flicked out

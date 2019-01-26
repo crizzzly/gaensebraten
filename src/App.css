@@ -1,6 +1,13 @@
 :root {
   --blue: #15a9b4;
   --blue2: #11858e;
+  --col_sidebar:#11C69A4C;
+  --col_userIco:#245CB3;
+  --col_bg:#F0F0F0;
+  --col_line_vertical:#979797;
+  --col_line_horizontal:#DBDBDB7F;
+  --col_date:#4A4A4A99;
+  --col_bg:#F0F0F0;
 }
 a {
   color: var(--blue);
@@ -22,6 +29,8 @@ a:hover {
 .btn-outline-primary:hover {
   border-color: var(--blue2) !important;
 }
+
+
 html,
 body {
   margin: 0;
@@ -35,10 +44,11 @@ body {
   height: 100%;
   width: 100%;
   user-select: none;
-  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, avenir next, avenir,
     helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
   position: fixed;
   overflow: hidden;
+  background-color: var(--col_bg);
 }
 .h-100 {
   height: 100%;
@@ -46,7 +56,7 @@ body {
 .App {
   height: 100%;
   min-height: 100vh;
-  text-align: center;
+  text-align: left;
 }
 .UserInterface > div{
   height: 100%;
@@ -71,8 +81,8 @@ body {
   background-color: #ffffff;
   /* display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center; */
+  align-items: center;
   color: var(--blue);
 }
 .wrap {
@@ -114,14 +124,14 @@ nav {
 .card-deck {
   top: 0;
   will-change: transform;
-  display: flex;
+  display: fixed;
   align-items: center;
   justify-content: center;
   position: absolute;
   width: 100vw;
   height: 100vh;
   will-change: transform;
-  display: flex;
+  display: fixed;
   align-items: center;
   justify-content: center;
 }
@@ -132,6 +142,8 @@ nav {
   background-size: auto 85%;
   background-repeat: no-repeat;
   background-position: center center;
+  width:579px;
+  height:253px;
   max-height: 570px;
   will-change: transform;
   border-radius: 10px;
@@ -150,7 +162,7 @@ nav {
   width: 100vw;
   height: 100vh;
   will-change: transform;
-  display: flex;
+  display: fixed;
   align-items: flex-start;
   /* align-items: center; */
   justify-content: center;
@@ -200,37 +212,10 @@ nav {
   padding: 5px;
 }
 
-.right_index {
+.leap_pointer {
   background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-
-}
-
-.right_thumb {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-
-}
-
-.left_index {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-
-}
-
-.left_thumb {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   position: absolute;
 
