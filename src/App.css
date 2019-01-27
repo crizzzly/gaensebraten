@@ -103,12 +103,8 @@ nav {
 .cards-deck {
   overflow-y: scroll;
 }
-<<<<<<< HEAD
 
 .cards-deck .deck > div{ 
-=======
-.card-deck .deck > div{
->>>>>>> a9513084bf1d562eabcf7dc65880bcc66906e51a
   height:250px;
 }
 
