@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       frame: {},
       active: null,
+      currentTime: this.getTimeString(),
       selected_div: null,
       leapPointerCol: '#15a9b4',
       leapPointerSize: '20px',
@@ -50,14 +51,24 @@ class App extends Component {
       leapContextFrame: this.state.frame
     }
   }
-
+  getTimeString() {
+    const date = new Date(Date.now()).toLocaleTimeString();
+    return date;
+  }
   componentDidMount() {
     const {options} = this.props
     this.setupLeap(options)
     this.leapController.connect()
     console.log('LeapProvider - componentDidMount')
+    setInterval(() => {
+      this.timer = this.setState({
+        currentTime: this.getTimeString()
+      })
+    },1000)
   }
-
+  componentWillUnmount() {
+    clearInterval(this.timer);
+}
   componentWillUnmount(){
     this.leapController.disconnect()
   }
@@ -230,8 +241,8 @@ class App extends Component {
   }
 
 
-  notification(type, msg) {
-    this.setState({ alert: { show: true, msg: msg } });
+  notification = (type, msg) => {
+    this.setState({ alert: { type: type, show: true, msg: msg } });
     setTimeout(() => {
       this.setState({ alert: { show: false } });
     }, 5000);
@@ -241,7 +252,7 @@ class App extends Component {
     event.preventDefault();
     this.setState({ active: null });
 
-    this.notification("success", "Stopped cooking!");
+    this.notification("danger", "Stopped cooking!");
   };
   acceptRecipe = receipt => {
     this.setState({ active: receipt });
@@ -268,20 +279,18 @@ class App extends Component {
       );
     }
 
-    const { children } = this.props
-
     return (
       <div className="App h-100">
         <MyProvider>
           <Router>
             <div className="h-100">
               <header className="App-header bg-info">
-                <nav className="navbar">
-                  <div className="d-flex align-items-center">
-                    <div className="menu" onClick={this.handleMenu}>
+                <nav className="navbar row">
+                <div className="col-md-4">
+                    <div className="menu " onClick={this.handleMenu}>
                       J.O.
                       <div
-                        className={`menumenu${
+                        className={`bg-white menumenu${
                           this.state.menu ? "" : " hidden"
                         }`}
                       >
@@ -291,21 +300,21 @@ class App extends Component {
                         </ul>
                       </div>
                     </div>
-                    <MyContext.Consumer>
+                    </div>
+                  <MyContext.Consumer>
                       {context => (
-                        <div className="ml-2 text-white">
-                          Uhrzeit: {Date.now()}
+                        <div className="text-center text-white col-md-4">
+                          <strong>Uhrzeit: </strong>{this.state.currentTime} | <strong>Kochzeit:</strong> {context.time} m
                         </div>
                       )}
                     </MyContext.Consumer>
-                  </div>
-                  {button}
+                  <div className="col-md-4 text-right">{button}</div>
                 </nav>
 
                 <div
                   className={`alert ${
                     this.state.alert.show === true ? "" : " hidden"
-                  }`}
+                  } alert-${this.state.alert.type}`}
                 >
                   {this.state.alert.msg}
                 </div>
@@ -326,6 +335,7 @@ class App extends Component {
                     <Receipts
                       {...props}
                       active={this.state.active}
+                      notification={this.notification}
                       acceptRecipe={this.acceptRecipe}
                     />
                   )}

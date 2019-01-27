@@ -118,31 +118,28 @@ body {
 nav {
   padding: 10px;
 }
-.menu {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-flow: column;
-  width: 3em;
-  height: 3em;
-  padding: 10px;
-  border-radius: 50%;
-  background: var(--blue);
-  color: white;
-}
-
 .card-deck {
   top: 0;
   will-change: transform;
   display: fixed;
-  align-items: center;
-  justify-content: center;
   position: absolute;
   width: 100vw;
   height: 100vh;
   will-change: transform;
   display: fixed;
-  align-items: center;
+  justify-content: center;
+}
+.card-deck .deck div{ 
+  height:250px;
+}
+.deck {
+  position: absolute;
+  width: 100vw;
+  /* height: 100vh; */
+  will-change: transform;
+  display: fixed;
+  align-items: flex-start;
+  /* align-items: center; */
   justify-content: center;
 }
 .deck > div {
@@ -153,7 +150,6 @@ nav {
   background-repeat: no-repeat;
   background-position: center center;
   width:579px;
-  height:253px;
   max-height: 570px;
   will-change: transform;
   border-radius: 10px;
@@ -166,16 +162,17 @@ nav {
     width: 450px;
   }
 }
-
-.deck {
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  will-change: transform;
-  display: fixed;
-  align-items: flex-start;
-  /* align-items: center; */
+.menu {
+  position: relative;
+  display: flex;
   justify-content: center;
+  flex-flow: column;
+  width: 3em;
+  height: 3em;
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
 }
 .menumenu {
   z-index: 1;
@@ -199,6 +196,7 @@ nav {
   transition: opacity 0.3s ease;
   position: fixed;
   top: 5px;
+  z-index: 9999999;
   left: 50%;
   transform: translateX(-50%);
 }

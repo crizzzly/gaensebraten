@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useSprings, animated, interpolate } from "react-spring/hooks";
 import { useGesture } from "react-with-gesture";
+import Ingredients from "./Ingredients";
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({
   x: 0,
-  y: i * -10,
+  y: i * 10,
   scale: 1,
   rot: -5 + Math.random() * 10,
   delay: i * 100
@@ -48,7 +49,8 @@ function Decks(props) {
         const isGone = gone.has(index);
         // When a card is gone it flys out left or right, otherwise it's either dragged to delta, or goes back to zero
         const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0;
-        if (x > 1000) {
+        if (x > window.innerWidth) {
+          props.notification("success", "Started cooking!");
           setTimeout(() => props.acceptRecipe(props.receipts[index]), 500);
         }
         // How much the card tilts, flicking it harder makes it rotate faster
@@ -77,20 +79,17 @@ function Decks(props) {
       style={{
         transform: interpolate(
           [x, y],
-          (x, y) => `translate3d(${x}px,${-y * 2}px,0)`
+          (x, y) => `translate3d(${x}px,${y * 25}px,0)`
         )
       }}
     >
       {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
       <animated.div
         {...bind(i)}
-        style={{
-          transform: interpolate([rot, scale], trans),
-          backgroundImage: `url(${props.receipts[i]})`
-        }}
       >
         <h2>{props.receipts[i].title}</h2>
-        <p>{props.receipts[i].body}</p>
+        <Ingredients active={props.receipts[i]}/>
+
       </animated.div>
     </animated.div>
   ));

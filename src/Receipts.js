@@ -16,6 +16,7 @@ class Receipts extends Component {
           <MyContext.Consumer>
             {context => (
               <Decks
+                notification={this.props.notification}
                 acceptRecipe={this.props.acceptRecipe}
                 receipts={context.receipts}
               />

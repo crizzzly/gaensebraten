@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { MyContext } from "./context";
+import Ingredients from "./Ingredients";
 
 class Receipt extends Component {
   slider = React.createRef();
   render() {
     if (!this.props.active) return <Redirect to={`/receipts`} />;
-
+    
     return (
       <div className="deck">
         <div className="wrap">
           <h1>{this.props.active.title}</h1>
-          <p>{this.props.active.body}</p>
+          <Ingredients active={this.props.active}/>
 
           <MyContext.Consumer>
             {context => {
-              console.log('context', context);
-              
               const { dispatch } = context;
               return (
                 <div>

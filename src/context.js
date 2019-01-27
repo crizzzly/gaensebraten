@@ -4,7 +4,6 @@ import React, { Component } from "react";
 export const MyContext = React.createContext();
 
 const reducer = (state, action) => {
-  // console.log('Hello from Reducer', state, action);
   switch (action.type) {
     case "changeTime":
       return {
@@ -32,29 +31,19 @@ export class MyProvider extends Component {
     receipts: [
       {
         title: "Gaensebraten",
-        body: `Semmelknödel</br>
-        Rotkohl</br>
-        Rotkohl`
+        ingredients: ["Semmelknödel", "Rotkohl", "Rotkohl"]
       },
       {
         title: "Gegrillter Lachs",
-        body: `Ratatouille'</br>
-        'Kräuter-Kartoffel</br>
-        Zitrone`
+        ingredients: ["Ratatouille", "Kräuter-Kartoffel", "Zitrone"]
       },
       {
         title: "Pute Piccata",
-        body: `Semmelknödel</br>
-        Rotkohl`
+        ingredients: ["Semmelknödel", "Rotkohl"]
       },
       {
         title: "Semmelknödel",
-        body: `„Semmelknodel - Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" ist ein
-      Blindtext, der nichts bedeuten soll, sondern als Platzhalter im Layout
-      verwendet wird, um einen Eindruck vom fertigen Dokument zu erhalten.
-      Die Verteilung der Buchstaben und der Wortlängen des
-      pseudo-lateinischen Textes entspricht in etwa der natürlichen
-      lateinischen Sprache.`
+        ingredients: ["Semmelbroesel", "Knoedel", "Handruehrgeraet", "Liebe"]
       }
     ],
   };
