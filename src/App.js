@@ -7,6 +7,11 @@ import Login from "./Login";
 import Receipt from "./Receipt";
 import Receipts from "./Receipts";
 import Leap from 'leapjs';
+import ScreenPosition from 'leapjs-plugins'
+import {HandSwipe, HandHold} from 'leapjs-gesture'
+import  'pepjs'
+// import './lib/leapcursor-with-dependencies.min.js?gestureColor=#4268f4"'
+// import LeapCursor from './lib/leapcursor.js?gestureColor=#4286f4'
 // import Fullscreen from "react-full-screen";
 
 
@@ -17,25 +22,16 @@ class App extends Component {
     this.state = {
       frame: {},
       active: null,
-      rightThumb: {
+      selected_div: null,
+      leapPointerCol: '#15a9b4',
+      leapPointerSize: '20px',
+      deck_bg: 'white',
+      leapPointer: {
         x: -10,
         y: -10,
         z: -10
       },
-      rightIndex: {
-        x: -10,
-        y: -10,
-        z: -10
-      },
-      leftThumb: {
-        x: -10,
-        y: -10,
-        z: -10
-      },
-      leftIndex: {
-        x: -10,
-        y: -10
-      },
+
       alert: {
         show: false,
         msg: ""
@@ -67,7 +63,9 @@ class App extends Component {
   }
 
   setupLeap(options){
-    this.leapController = new Leap.Controller(options)
+    this.leapController = new Leap.Controller({
+      enableGestures: true
+    })
 
     this.leapController.on('deviceAttached', function() {
       console.log('LeapProvider - deviceAttached');
@@ -81,12 +79,18 @@ class App extends Component {
     this.leapController.on('deviceRemoved', function() {
       console.log('LeapProvider - deviceRemoved');
     });
-
     this.leapController.on('deviceRemoved', function() {
       console.log('LeapProvider - deviceRemoved');
     });
-
     this.leapController.on('frame', this.onFrame);
+
+    this.leapController.on('gesture', this.onGesture)
+
+    this.leapController.use('screenPosition');
+    this.leapController.use('handSwipe');
+    this.leapController.use('handHold')
+
+    this.leapController.on('handSwipe', this.handleSwipe)
   }
 
   onFrame(frame){
@@ -113,6 +117,51 @@ class App extends Component {
     this.frameId = window.requestAnimationFrame(this.animate)
   }
 
+
+  onGesture(gesture, frame){
+    console.log(gesture.type + " with ID " + gesture.id + " in frame " + frame.id);
+
+    switch (gesture.type){
+      case "keyTap":
+        var hand= frame.hand(gesture.handIds);
+        console.log('hand: '+hand)
+        this.leapPointer = hand.screenPosition()
+        var el = document.elementFromPoint(this.leapPointer[0], this.leapPointer[1])
+        console.log(el)
+        // this.setState({})
+    }
+  }
+  handleSwipe(hand){
+    console.log('handSwipe! ' + hand.swipeDirection + ' id: ', hand.id)
+  }
+
+  fakePointerEvent(id, pointerType, eventType, x, y, p) {
+  /* further defaults */
+  var tx = 0, ty = 0, w = 50, h = 50;
+  if('PointerEvent' in window) {
+    /* construct pointer event */
+    var e = new PointerEvent(eventType, {
+      pointerId: id,
+      width: w,
+      height: h,
+      pressure: p,
+      tiltX: tx,
+      tiltY: ty,
+      pointerType: pointerType,
+      isPrimary: false,
+      clientX: x,
+      clientY: y,
+      screenX: x,
+      screenY: y
+    });
+    /* dispatch constructed event to whatever element is at the coordinates (no support for pointer capture at this stage) */
+    var el = document.elementFromPoint(x, y)
+    if (el){
+        el.dispatchEvent(e);
+    }
+  }
+}
+
   // functions to set the circle position according to finger tip position detected by leap
   mapVal(val, in_min, in_max, out_min, out_max) {
     return (val - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -135,44 +184,48 @@ class App extends Component {
 
   readData(frame){
     this.hands = frame.hands
-    this.leftThumb = [-10, -10, 0];
-    this.leftIndex = [-10, -10, 0];
-    this.rightThumb = [-10, -10, 0];
-    this.rightIndex = [-10, -10, 0];
+    this.leapPointer = [-10, -10, 0];
     if (this.hands && this.hands.length){
       this.hands.forEach((hand, index) => {
-        if (hand.type === "left") {
-          this.leftIndex = this.getFingerScreenPosition(hand.thumb.dipPosition);
-          this.leftThumb =  this.getFingerScreenPosition(hand.indexFinger.dipPosition );
-          console.log("left hand: " + this.leftIndex + ", " + this.leftThumb);
-        } else {
-          this.rightIndex = this.getFingerScreenPosition(hand.thumb.dipPosition);
-          this.rightThumb = this.getFingerScreenPosition(hand.indexFinger.dipPosition);
-          console.log("right hand: " + this.rightIndex + ", " + this.rightThumb);
+        this.leapPointer = hand.screenPosition()
+
+        // if (hand.type === "left") {
+        //   this.leftIndex = this.getFingerScreenPosition(hand.thumb.dipPosition);
+        //   this.leftThumb =  this.getFingerScreenPosition(hand.indexFinger.dipPosition );
+        //   console.log("left hand: " + this.leftIndex + ", " + this.leftThumb);
+        // } else {
+        //   this.leapPointer = this.getFingerScreenPosition(hand.thumb.dipPosition);
+        //   this.rightThumb = this.getFingerScreenPosition(hand.indexFinger.dipPosition);
+        //   console.log("right hand: " + this.leapPointer + ", " + this.rightThumb);
+        // }
+        var x = window.innerWidth * frame.interactionBox.normalizePoint(this.leapPointer, true)[0];
+        var y = window.innerHeight * (1 - frame.interactionBox.normalizePoint(this.leapPointer, true)[1]);
+        var id = hand.id
+        var p = hand.pinchStrength
+
+        if (p > .5){
+          var el = document.elementFromPoint(this.leapPointer[0], this.leapPointer[1])
+          this.setState({leapPointerCol: '#11858e'})
+          this.setState({leapPointerSize: '25px'})
+          this.fakePointerEvent(id, 'leap', 'pointermove', x, y, .5)
+          console.log('parent '+ el.parentNode)
+          console.log('class '+ el.constructor.toString())
+          // this.setState({active: el})
+          console.log(el)
+        } else{
+          this.setState({leapPointerSize: '20px'})
+          this.setState({leapPointerCol: '#15a9b4'})
+          this.fakePointerEvent(id, 'leap', 'pointermove', x, y, p)
         }
+
+
       })
 
     }
-
-    this.setState({leftIndex: {
-      x: this.leftIndex[0],
-      y: this.leftIndex[1],
-      z: this.leftIndex[2]}
-    })
-    this.setState({rightIndex: {
-      x: this.rightIndex[0],
-      y: this.rightIndex[1],
-      z: this.rightIndex[2]}
-    })
-    this.setState({leftThumb:  {
-      x: this.leftThumb[0],
-      y: this.leftThumb[1],
-      z: this.leftThumb[2] }
-    })
-    this.setState({rightThumb: {
-      x: this.rightThumb[0],
-      y: this.rightThumb[1],
-      z: this.rightThumb[1]}
+    this.setState({leapPointer: {
+      x: this.leapPointer[0],
+      y: this.leapPointer[1],
+      z: this.leapPointer[2]}
     })
   }
 
@@ -241,7 +294,7 @@ class App extends Component {
                     <MyContext.Consumer>
                       {context => (
                         <div className="ml-2 text-white">
-                          Cookingtime: {context.time}m
+                          Uhrzeit: {Date.now()}
                         </div>
                       )}
                     </MyContext.Consumer>
@@ -281,44 +334,19 @@ class App extends Component {
             </div>
           </Router>
           <div
-            className="right_index"
+            className="leap_pointer"
             style={{
-              left:this.state.rightIndex.x,
-              top:this.state.rightIndex.y
+              left:this.state.leapPointer.x,
+              top:this.state.leapPointer.y,
+              background:this.state.leapPointerCol,
+              width:this.state.leapPointerSize,
+              height:this.state.leapPointerSize
             }}
             />
-          <div
-            className="right_thumb"
-            style={{
-              left:this.state.rightThumb.x,
-              top:this.state.rightThumb.y
-            }}/>
-
-          <div
-            className="left_index"
-            style={{
-              left:this.state.leftIndex.x,
-              top:this.state.leftIndex.y
-            }}/>
-
-          <div
-            className="left_thumb"
-            style={{
-              left:this.state.rightThumb.x,
-              top:this.state.rightThumb.y
-            }}/>
         </MyProvider>
       </div>
     ); // end of return
   }
 }
-//
-// <Modal
-//   animationType='slide'
-//   transparent={false},
-//   visible={this.state.modalVisible},
-//   onRequestClose={() => {
-//     Alert.alert('Modal has been closed')
-//   }}
 
 export default App;

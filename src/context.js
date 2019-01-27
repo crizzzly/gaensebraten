@@ -32,43 +32,29 @@ export class MyProvider extends Component {
     receipts: [
       {
         title: "Gaensebraten",
-        body: `„Gaensebraten - Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" ist ein
-      Blindtext, der nichts bedeuten soll, sondern als Platzhalter im Layout
-      verwendet wird, um einen Eindruck vom fertigen Dokument zu erhalten.
-      Die Verteilung der Buchstaben und der Wortlängen des
-      pseudo-lateinischen Textes entspricht in etwa der natürlichen
-      lateinischen Sprache. Der Text ist absichtlich unverständlich, damit
-      der Betrachter nicht durch den Inhalt abgelenkt wird.`
+        body: `Semmelknödel</br>
+        Rotkohl</br>
+        Rotkohl`
       },
       {
-        title: "Rindsgulasch",
-        body: `Rindsgulasch - Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" ist ein
-      Blindtext, der nichts bedeuten soll, sondern als Platzhalter im Layout
-      verwendet wird, um einen Eindruck vom fertigen Dokument zu erhalten.
-      Die Verteilung der Buchstaben und der Wortlängen des
-      pseudo-lateinischen Textes entspricht in etwa der natürlichen
-      lateinischen Sprache. Der Text ist absichtlich unverständlich, damit
-      der Betrachter nicht durch den Inhalt abgelenkt wird.`
+        title: "Gegrillter Lachs",
+        body: `Ratatouille'</br>
+        'Kräuter-Kartoffel</br>
+        Zitrone`
       },
       {
-        title: "Schweinshaxn",
-        body: `Schweinshaxn - Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" ist ein
-      Blindtext, der nichts bedeuten soll, sondern als Platzhalter im Layout
-      verwendet wird, um einen Eindruck vom fertigen Dokument zu erhalten.
-      Die Verteilung der Buchstaben und der Wortlängen des
-      pseudo-lateinischen Textes entspricht in etwa der natürlichen
-      lateinischen Sprache. Der Text ist absichtlich unverständlich, damit
-      der Betrachter nicht durch den Inhalt abgelenkt wird.`
+        title: "Pute Piccata",
+        body: `Semmelknödel</br>
+        Rotkohl`
       },
       {
-        title: "Semmelknodel",
+        title: "Semmelknödel",
         body: `„Semmelknodel - Lorem ipsum dolor sit amet, consectetur, adipisci velit, …" ist ein
       Blindtext, der nichts bedeuten soll, sondern als Platzhalter im Layout
       verwendet wird, um einen Eindruck vom fertigen Dokument zu erhalten.
       Die Verteilung der Buchstaben und der Wortlängen des
       pseudo-lateinischen Textes entspricht in etwa der natürlichen
-      lateinischen Sprache. Der Text ist absichtlich unverständlich, damit
-      der Betrachter nicht durch den Inhalt abgelenkt wird.`
+      lateinischen Sprache.`
       }
     ],
   };
