@@ -129,7 +129,7 @@ nav {
   display: fixed;
   justify-content: center;
 }
-.card-deck .deck div{ 
+.card-deck .deck > div{ 
   height:250px;
 }
 .deck {

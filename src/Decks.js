@@ -87,8 +87,16 @@ function Decks(props) {
       <animated.div
         {...bind(i)}
       >
-        <h2>{props.receipts[i].title}</h2>
-        <Ingredients active={props.receipts[i]}/>
+        <div className="row">
+          <div className="col-md-9">
+            <h2>{props.receipts[i].title}</h2>
+            <Ingredients active={props.receipts[i]}/>
+          </div>
+          <div className="col-md-3">
+            5 Minuten
+          </div>
+
+        </div>
 
       </animated.div>
     </animated.div>
