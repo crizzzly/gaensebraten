@@ -4,7 +4,6 @@ import { MyProvider, MyContext } from "./context";
 
 import "./App.css";
 import Login from "./Login";
-import Receipt from "./Receipt";
 import Receipts from "./Receipts";
 import Leap from 'leapjs';
 import ScreenPosition from 'leapjs-plugins'
@@ -239,21 +238,12 @@ class App extends Component {
       z: this.leapPointer[2]}
     })
   }
-
-
   notification = (type, msg) => {
     this.setState({ alert: { type: type, show: true, msg: msg } });
     setTimeout(() => {
       this.setState({ alert: { show: false } });
     }, 5000);
   }
-
-  handleClick = event => {
-    event.preventDefault();
-    this.setState({ active: null });
-
-    this.notification("danger", "Stopped cooking!");
-  };
   acceptRecipe = receipt => {
     this.setState({ active: receipt });
   };
@@ -262,37 +252,21 @@ class App extends Component {
     this.setState({ menu: !this.state.menu });
   };
 
-
-
   render() {
-
-    let button;
-    if (this.state.active) {
-      button = (
-        <button
-          className="btn btn-outline-light my-2 my-sm-0"
-          type="submit"
-          onClick={this.handleClick}
-        >
-          Back to Receipts
-        </button>
-      );
-    }
-
     return (
       <div className="App h-100">
         <MyProvider>
           <Router>
-            <div className="h-100">
+            <div className="position-relative h-100 d-flex flex-column">
               <header className="App-header bg-info">
                 <nav className="navbar row">
-                <div className="col-md-4">
+                  <div className="col-md-4">
                     <div className="menu " onClick={this.handleMenu}>
                       J.O.
                       <div
                         className={`bg-white menumenu${
                           this.state.menu ? "" : " hidden"
-                        }`}
+                          }`}
                       >
                         <ul>
                           <li />
@@ -300,34 +274,36 @@ class App extends Component {
                         </ul>
                       </div>
                     </div>
-                    </div>
+                  </div>
                   <MyContext.Consumer>
-                      {context => (
-                        <div className="text-center text-white col-md-4">
-                          <strong>Uhrzeit: </strong>{this.state.currentTime} | <strong>Kochzeit:</strong> {context.time} m
+                    {context => (
+                      <div className="text-center text-white col-md-4">
+                        <strong>Uhrzeit: </strong>{this.state.currentTime} | <strong>Kochzeit:</strong> {context.time} m
                         </div>
-                      )}
-                    </MyContext.Consumer>
-                  <div className="col-md-4 text-right">{button}</div>
+                    )}
+                  </MyContext.Consumer>
+                  <div className="col-md-4 text-right">
+                  {/* {button} */}
+                  </div>
                 </nav>
 
                 <div
                   className={`alert ${
                     this.state.alert.show === true ? "" : " hidden"
-                  } alert-${this.state.alert.type}`}
+                    } alert-${this.state.alert.type}`}
                 >
                   {this.state.alert.msg}
                 </div>
               </header>
-              <div className="wrapper">
+              <div className="h-100 flex-grow-1 position-relative">
                 <Route path="/" exact component={Login} />
-                <Route
+                {/* <Route
                   path="/recipe/:recipe"
                   exact
                   render={props => (
                     <Receipt {...props} active={this.state.active} />
                   )}
-                />
+                /> */}
                 <Route
                   path="/receipts"
                   exact
@@ -343,7 +319,7 @@ class App extends Component {
               </div>
             </div>
           </Router>
-          <div
+          {/* <div
             className="leap_pointer"
             style={{
               left:this.state.leapPointer.x,
@@ -352,7 +328,7 @@ class App extends Component {
               width:this.state.leapPointerSize,
               height:this.state.leapPointerSize
             }}
-            />
+            /> */}
         </MyProvider>
       </div>
     ); // end of return

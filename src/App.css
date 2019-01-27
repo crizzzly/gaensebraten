@@ -53,9 +53,6 @@ body {
   overflow: hidden;
   background-color: var(--col_bg);
 }
-.h-100 {
-  height: 100%;
-}
 .App {
   height: 100%;
   min-height: 100vh;
@@ -64,13 +61,7 @@ body {
 .UserInterface > div {
   height: 100%;
 }
-.wrapper {
-  position: relative;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-flow: column;
-}
+
 .Login {
   height: 100%;
   width: 100%;
@@ -82,17 +73,8 @@ body {
   max-width: 400px;
   margin: 0 auto;
 }
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
 
 .App-header {
-  background-color: #ffffff;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
-  align-items: center;
   color: var(--blue);
 }
 .wrap {
@@ -118,34 +100,17 @@ body {
 nav {
   padding: 10px;
 }
-.card-deck {
-  top: 0;
-  will-change: transform;
-  display: fixed;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  will-change: transform;
-  display: fixed;
-  justify-content: center;
+.cards-deck {
+  overflow-y: scroll;
 }
-.card-deck .deck > div{ 
+
+.cards-deck .deck > div{ 
   height:250px;
 }
-.deck {
-  position: absolute;
-  width: 100vw;
-  /* height: 100vh; */
-  will-change: transform;
-  display: fixed;
-  align-items: flex-start;
-  /* align-items: center; */
-  justify-content: center;
-}
+
 .deck > div {
   background-color: white;
   border: 1px solid #aaa;
-  padding: 30px;
   background-size: auto 85%;
   background-repeat: no-repeat;
   background-position: center center;
@@ -250,4 +215,26 @@ nav {
   height: 20px;
   border-radius: 50%;
   position: absolute;
+}
+.z-index-0 {
+  z-index: 0;
+}
+.z-index-1 {
+  z-index: 1;
+}
+.z-index-minus-1 {
+  z-index: -1;
+}
+.rounded-right {
+  border-top-right-radius: 1.25rem!important;
+  border-bottom-right-radius: 1.25rem!important;
+}
+.mw-3 {
+  min-width: 3em;
+}
+.top {
+  top: 0;
+}
+.left {
+  left: 0;
 }

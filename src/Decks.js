@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSprings, animated, interpolate } from "react-spring/hooks";
 import { useGesture } from "react-with-gesture";
 import Ingredients from "./Ingredients";
+import Setting from "./Setting";
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = i => ({
@@ -36,6 +37,7 @@ function Decks(props) {
       direction: [xDir],
       velocity
     }) => {
+      console.log('down', down);
       // If you flick hard enough it should trigger the card to fly out
       const trigger = velocity > 0.2;
       // Direction should either point left or right
@@ -49,9 +51,14 @@ function Decks(props) {
         const isGone = gone.has(index);
         // When a card is gone it flys out left or right, otherwise it's either dragged to delta, or goes back to zero
         const x = isGone ? (200 + window.innerWidth) * dir : down ? xDelta : 0;
+        console.log('x', x);
+        
         if (x > window.innerWidth) {
-          props.notification("success", "Started cooking!");
-          setTimeout(() => props.acceptRecipe(props.receipts[index]), 500);
+          props.notification("success", "Gericht erledigt!");
+          setTimeout(() => (props.dispatch({
+            type: "COOK",
+            value: props.receipts[index]
+          })), 500);
         }
         // How much the card tilts, flicking it harder makes it rotate faster
         const rot = xDelta / 100 + (isGone ? dir * 10 * velocity : 0);
@@ -77,23 +84,28 @@ function Decks(props) {
       className="deck"
       key={i}
       style={{
+        zIndex: props.receipts.length - i,
         transform: interpolate(
           [x, y],
-          (x, y) => `translate3d(${x}px,${y * 25}px,0)`
+          (x, y) => `translate3d(${x}px,${-y * 2}px,0)`
         )
       }}
     >
       {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
       <animated.div
+        className="p-3"
         {...bind(i)}
+        // style={{
+        //   transform: interpolate([rot, scale], trans)
+        // }}
       >
-        <div className="row">
-          <div className="col-md-9">
+        <div className="row h-100">
+          <div className="col-md-9 border-right">
             <h2>{props.receipts[i].title}</h2>
             <Ingredients active={props.receipts[i]}/>
           </div>
           <div className="col-md-3">
-            5 Minuten
+          <Setting active={props.receipts[i]}/>
           </div>
 
         </div>

@@ -4,16 +4,22 @@ import React, { Component } from "react";
 export const MyContext = React.createContext();
 
 const reducer = (state, action) => {
+  console.log('action', action);
+  console.log('state', state);
+  
   switch (action.type) {
-    case "changeTime":
+    case "CHANGE_TIME":
       return {
         ...state,
         time: action.value
       };
-    case "DECREMENT_Y":
+    case "COOK":
+      console.log('state.doneItems.push(action.value)', state.doneItems);
+
       return {
         ...state,
-        y: state.y - 1
+        totalTime: state.totalTime + action.value.time,
+        doneItems: [...state.doneItems, action.value]
       };
     default:
       return state;
@@ -24,26 +30,46 @@ const reducer = (state, action) => {
 export class MyProvider extends Component {
   state = {
     time: 0,
-    y: 0,
+    doneItems: [],
+    totalTime: 0,
     dispatch: action => {
       this.setState(state => reducer(state, action));
     },
     receipts: [
       {
         title: "Gaensebraten",
-        ingredients: ["Semmelknödel", "Rotkohl", "Rotkohl"]
+        ingredients: ["Semmelknödel", "Rotkohl", "Rotkohl"],
+        time: 150
       },
       {
         title: "Gegrillter Lachs",
-        ingredients: ["Ratatouille", "Kräuter-Kartoffel", "Zitrone"]
+        ingredients: ["Ratatouille", "Kräuter-Kartoffel", "Zitrone"],
+        time: 120
       },
       {
         title: "Pute Piccata",
-        ingredients: ["Semmelknödel", "Rotkohl"]
+        ingredients: ["Semmelknödel", "Rotkohl"],
+        time: 50
       },
       {
         title: "Semmelknödel",
-        ingredients: ["Semmelbroesel", "Knoedel", "Handruehrgeraet", "Liebe"]
+        ingredients: ["Semmelbroesel", "Knoedel", "Handruehrgeraet", "Liebe"],
+        time: 20
+      },
+      {
+        title: "Hackfleisch",
+        ingredients: ["Semmelbroesel", "Knoedel", "Handruehrgeraet", "Liebe"],
+        time: 30
+      },
+      {
+        title: "Mettigel",
+        ingredients: ["Semmelbroesel", "Knoedel", "Handruehrgeraet", "Liebe"],
+        time: 120
+      },
+      {
+        title: "Saumagen",
+        ingredients: ["Rinderhirn", "Hasenhoden", "Eichhoernchenhande", "Blutwurst"],
+        time: 140
       }
     ],
   };
