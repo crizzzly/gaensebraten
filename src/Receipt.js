@@ -5,7 +5,6 @@ import Ingredients from "./Ingredients";
 import Setting from "./Setting";
 
 class Receipt extends Component {
-  slider = React.createRef();
   render() {
     if (!this.props.active) return <Redirect to={`/receipts`} />;
     

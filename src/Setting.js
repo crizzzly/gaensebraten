@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { MyContext } from "./context";
 
 class Setting extends Component {
+  slider = React.createRef();
+
   render() {
     return (
 
