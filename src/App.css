@@ -103,8 +103,12 @@ nav {
 .cards-deck {
   overflow-y: scroll;
 }
+<<<<<<< HEAD
 
 .cards-deck .deck > div{ 
+=======
+.card-deck .deck > div{
+>>>>>>> a9513084bf1d562eabcf7dc65880bcc66906e51a
   height:250px;
 }
 
@@ -185,31 +189,7 @@ nav {
   padding: 5px;
 }
 
-.right_index {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.right_thumb {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.left_index {
-  background: var(--blue);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.left_thumb {
+.leap_pointer {
   background: var(--blue);
   width: 20px;
   height: 20px;
